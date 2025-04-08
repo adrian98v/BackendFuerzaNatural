@@ -1,7 +1,9 @@
-import express from 'express'
+import express, { json } from 'express'
 import routerUsuario from './routes/usuario.routes.js'
 
 const app = express()
+
+app.use(express.json())
 
 app.use(routerUsuario)
 

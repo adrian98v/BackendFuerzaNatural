@@ -1,15 +1,13 @@
 import { Router } from "express";
 import { pool } from '../db.js'
-import {usuarioController} from '../controllers/usuario.controller.js'
-
+import {createUsuario} from '../controllers/usuario.controller.js'
+import {deleteUsuario} from '../controllers/usuario.controller.js'
 
 const router = Router()
 
-router.get('/usuario', (req, res) => {
+router.post('/usuario', createUsuario)
 
-    pool.query('select * from usuario',  )
-      
-})
+router.delete("/usuario/:DNI", deleteUsuario)
 
 
 export default router;
