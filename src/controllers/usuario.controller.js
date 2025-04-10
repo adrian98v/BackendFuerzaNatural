@@ -2,14 +2,6 @@ import { pool } from '../db.js'
 import bcrypt from 'bcrypt';
 
 
-export const createUsuario = async (req, res) => {
-    const {nombre, email, is_admin, contrasenia, numero} = req.body;
-    const [rows] = await pool.query('insert into usuario (nombre, email, is_admin, contrasenia, numero) values (?, ?, ?, ?, ?)', 
-        [nombre, email, is_admin, contrasenia, numero]);
-      
-    res.send(rows)
-}
-
 
 export const deleteUsuario = async (req, res) => {
     await pool.query('delete from usuario where email = ?', [req.params.email])

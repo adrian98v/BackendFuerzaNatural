@@ -10,12 +10,14 @@ export const signupController = async (req, res)=>{
     const [rows] = await pool.query('select * from usuario where email = ?', [email])
 
     if(rows.length == 0){
-        const {DNI, nombre, apellido, email, is_admin, contrasenia} = req.body;
+        const {nombre, email, is_admin, contrasenia, numero} = req.body;
 
         const hashedPassword = await bcrypt.hash(contrasenia, 10);
 
-        const [resultado] = await pool.query('insert into usuario values (?, ?, ?, ?, ?, ?)', 
-            [DNI, nombre, apellido, email, is_admin, hashedPassword])
+        const [resultado] = await pool.query('insert into usuario (nombre, email, is_admin, contrasenia, numero) values (?, ?, ?, ?, ?)', 
+            [nombre, email, is_admin, hashedPassword, numero])
+
+
 
         res.status(201).json({ success: true, message: 'Usuario registrado correctamente' });
 
