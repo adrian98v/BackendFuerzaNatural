@@ -15,6 +15,9 @@ app.use(productoRoutes);
 app.use(categoriaRoutes);
 app.use(signupRoutes);
 app.use(loginRoutes);
-app.use(routerUsuario)
+app.use(routerUsuario);
+
+app.use('/api/categorias', categoriaRoutes);
+
 
 app.listen(3000, ()=>{console.log("escuchando en puerto 3000")})
