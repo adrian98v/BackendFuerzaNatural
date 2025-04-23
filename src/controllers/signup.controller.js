@@ -5,9 +5,9 @@ import bcrypt from 'bcrypt';
 export const signupController = async (req, res)=>{
 
     try{
-        const {email} = req.body;
+        const {email, numero} = req.body;
 
-        const [rows] = await pool.query('select * from usuario where email = ?', [email])
+        const [rows] = await pool.query('select * from usuario where email = ? or numero = ?', [email, numero])
 
     if(rows.length == 0){
         const {nombre, email, is_admin, contrasenia, numero} = req.body;
@@ -22,7 +22,7 @@ export const signupController = async (req, res)=>{
         res.status(201).json({ success: true, message: 'Usuario registrado correctamente' });
 
     }else{
-        res.status(400).json({success: false, message: 'El email ingresado ya existe'})
+        res.status(400).json({success: false, message: 'Ya existe un usuario con los datos ingresados'})
 
     }
 
