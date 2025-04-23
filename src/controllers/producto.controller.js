@@ -30,22 +30,44 @@ export const addProducto = (req, res) => {
   });
 };
 
-// ✅ CORREGIDO: usar req.query en lugar de req.body
-export const obtenerProductos = (req, res) => {
-  const { categoria } = req.query;
+export const updateProducto = async (req, res) => {
+  const { id } = req.params;
+  const { nombre, precio, stock, imagen, descripcion, ID_Categoria } = req.body;
 
-  let query = 'SELECT * FROM producto';
-  let params = [];
+  const sql = `
+    UPDATE producto 
+    SET nombre = ?, precio = ?, stock = ?, imagen = ?, descripcion = ?, ID_Categoria = ?
+    WHERE ID_Producto = ?
+  `;
 
-  if (categoria) {
-    query += ' WHERE ID_Categoria = ?';
-    params.push(categoria);
-  }
-
-  pool.query(query, params, (err, results) => {
-    if (err) {
-      return res.status(500).json({ mensaje: 'Error al obtener productos', error: err });
+  try {
+    const [result] = await pool.query(sql, [nombre, precio, stock, imagen, descripcion, ID_Categoria, id]);
+    
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
     }
-    res.json(results);
-  });
+
+    res.json({ mensaje: 'Producto actualizado correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
+
+
+export const deleteProducto = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [result] = await pool.query('DELETE FROM producto WHERE ID_Producto = ?', [id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json({ mensaje: 'Producto eliminado correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
