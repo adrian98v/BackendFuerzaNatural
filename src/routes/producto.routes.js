@@ -6,4 +6,5 @@ router.get('/Productos', getProductos);
 router.get('/ProductoPorCategoria/:id', getProductosPorCategoria);
 router.post('/AddCategoria', addProducto);
 router.get('/TodoProductos', obtenerProductos);
+
 export default router;

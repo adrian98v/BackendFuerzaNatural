@@ -4,18 +4,31 @@ import productoRoutes from './routes/producto.routes.js'
 import categoriaRoutes from './routes/categoria.routes.js'
 import signupRoutes from './routes/signup.routes.js'
 import loginRoutes from './routes/login.routes.js'
+import logoutRoutes from './routes/logout.routes.js'
+
+import userCheck from './routes/userCheck.routes.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
+
 
 
 const app = express()
-app.use(cors());
 
-app.use(express.json())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(cookieParser());
+
 app.use(productoRoutes);
 app.use(categoriaRoutes);
 app.use(signupRoutes);
 app.use(loginRoutes);
 app.use(routerUsuario);
+app.use(userCheck);
+app.use(logoutRoutes);
 
 app.use('/api/categorias', categoriaRoutes);
 

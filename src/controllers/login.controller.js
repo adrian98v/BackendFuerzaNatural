@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 export const loginController = async (req, res)=>{
 
     try {
+        console.log(req.cookies);
         const {email, contrasenia} = req.body
 
         const [rows] = await pool.query('SELECT * FROM usuario WHERE email = ?', [email]);
@@ -22,10 +23,23 @@ export const loginController = async (req, res)=>{
         }
 
 
-        const copiaSegura = { ...usuario }
-        copiaSegura.contrasenia = "_"
+        const copiaSegura = {
+            id: usuario.id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            telefono: usuario.telefono,
+            is_admin: usuario.is_admin
+        };
 
-        res.status(200).json({ success: true, user: copiaSegura});
+    // Guardar la cookie
+        res.cookie('usuario', copiaSegura, {
+            httpOnly: true,
+            secure: false, // true en producción con HTTPS
+            sameSite: 'lax',
+            maxAge: 1000 * 60 * 60 * 24 // 1 día con sesión abierta
+        });
+
+    res.status(200).json({ success: true, message: 'Sesión iniciada correctamente' });
 
     } catch (error) {
         res.status(500).json({success: true, message: "Error del servidor"})

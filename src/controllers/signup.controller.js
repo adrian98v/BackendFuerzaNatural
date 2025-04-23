@@ -7,14 +7,14 @@ export const signupController = async (req, res)=>{
     try{
         const {email} = req.body;
 
-    const [rows] = await pool.query('select * from usuario where email = ?', [email])
+        const [rows] = await pool.query('select * from usuario where email = ?', [email])
 
     if(rows.length == 0){
         const {nombre, email, is_admin, contrasenia, numero} = req.body;
 
         const hashedPassword = await bcrypt.hash(contrasenia, 10);
 
-        const [resultado] = await pool.query('insert into usuario (nombre, email, is_admin, contrasenia, numero) values (?, ?, ?, ?, ?)', 
+        const [resultado] = await pool.query('insert into usuario (nombre, email, is_admin, contrasenia, numero) values (?,?,?,?,?)', 
             [nombre, email, is_admin, hashedPassword, numero])
 
 
