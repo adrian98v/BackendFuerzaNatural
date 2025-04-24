@@ -1,10 +1,13 @@
 import { Router } from "express";
-import {deleteUsuario} from '../controllers/usuario.controller.js'
+import {deleteUsuario, getClientes} from '../controllers/usuario.controller.js'
 import {changePassword} from '../controllers/usuario.controller.js'
+
 
 const router = Router()
 
-router.delete("/usuario/:email", deleteUsuario)
+router.get("/admin/clientes", getClientes)
+
+router.delete("/usuario/:numero", deleteUsuario)
 
 router.patch("/usuario", changePassword)
 
