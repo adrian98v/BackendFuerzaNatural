@@ -5,6 +5,9 @@ import categoriaRoutes from './routes/categoria.routes.js'
 import signupRoutes from './routes/signup.routes.js'
 import loginRoutes from './routes/login.routes.js'
 import logoutRoutes from './routes/logout.routes.js'
+import productosPedidoRoutes from './routes/productos_pedido.routes.js'
+import pedidoRoutes from './routes/pedido.routes.js'
+import finalizarCompra  from './routes/checkout.routes.js'
 
 import userCheck from './routes/userCheck.routes.js'
 import cors from 'cors'
@@ -29,6 +32,10 @@ app.use(loginRoutes);
 app.use(routerUsuario);
 app.use(userCheck);
 app.use(logoutRoutes);
+app.use(productoRoutes);
+app.use(pedidoRoutes);
+app.use(productosPedidoRoutes);
+app.use(finalizarCompra);
 
 
 

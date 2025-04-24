@@ -24,14 +24,14 @@ export const loginController = async (req, res)=>{
 
 
         const copiaSegura = {
-            id: usuario.id,
+            IDUsuario: usuario.ID_Usuario,
             nombre: usuario.nombre,
             email: usuario.email,
-            telefono: usuario.telefono,
-            is_admin: usuario.is_admin
+            numero: usuario.numero,
+            is_admin: usuario.is_admin,
         };
-
-    // Guardar la cookie
+        
+        // Guardar la cookie
         res.cookie('usuario', copiaSegura, {
             httpOnly: true,
             secure: false, // true en producción con HTTPS
