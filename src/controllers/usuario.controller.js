@@ -27,7 +27,22 @@ export const getClientes = async (req, res)=>{
 
 
 export const deleteUsuario = async (req, res) => {
-    await pool.query('delete from usuario where numero = ?', [req.params.numero])
+
+  try {
+    const [result] = await pool.query('DELETE FROM usuario WHERE numero = ?', [req.params.numero]);
+
+  
+    if (result.affectedRows > 0) {
+        
+        return res.status(200).json({ message: 'Usuario eliminado correctamente' });
+    } else {
+        return res.status(200).json({ message: 'Usuario no encontrado' });
+    }
+    
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Error del servidor' });
+  }
+  
 }
 
 
