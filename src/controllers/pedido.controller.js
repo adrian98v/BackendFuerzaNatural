@@ -16,16 +16,16 @@ export const getAllPedidos = async (req, res) => {
         const [rows] = await pool.query(`
             SELECT 
                 p.ID_Pedido,
-                u.nombre AS nombre_usuario,
-                u.numero AS numero_usuario,
+                COALESCE(u.nombre, p.nombre) AS nombre_usuario,
+                p.numero AS numero_usuario,
                 pr.nombre AS nombre_producto,
                 pr.precio AS precio_producto,
-                p.estado as estado_pedido,
-                p.fecha as fecha_pedido,
+                p.estado AS estado_pedido,
+                p.fecha AS fecha_pedido,
                 pp.cantidad,
                 p.precio_final AS Precio_Final
-            FROM usuario u
-            JOIN pedido p ON u.numero = p.numero
+            FROM pedido p
+            LEFT JOIN usuario u ON u.numero = p.numero
             JOIN productos_pedido pp ON p.ID_Pedido = pp.ID_Pedido
             JOIN producto pr ON pp.ID_Producto = pr.ID_Producto
             ORDER BY p.fecha DESC
@@ -66,9 +66,7 @@ export const getAllPedidos = async (req, res) => {
             });
         }
 
-        // Convertimos el Map a array
         const pedidos = Array.from(pedidosMap.values());
-
         res.json(pedidos);
 
     } catch (err) {
