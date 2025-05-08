@@ -10,6 +10,7 @@ export const getPedidos = async (req, res) => {
     }
 };
 
+
 // GET pedidos con datos del usuario y productos
 export const getAllPedidos = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ export const getAllPedidos = async (req, res) => {
                 pr.nombre AS nombre_producto,
                 pr.precio AS precio_producto,
                 p.estado as estado_pedido,
-                p.fecha as fecha_pedido,
+                DATE_FORMAT(p.fecha, '%Y-%m-%d') AS fecha_pedido,
                 pp.cantidad,
                 p.precio_final AS Precio_Final
             FROM usuario u
@@ -31,7 +32,6 @@ export const getAllPedidos = async (req, res) => {
             ORDER BY p.fecha DESC
         `);
 
-        // Agrupamos los productos por ID_Pedido
         const pedidosMap = new Map();
 
         for (const row of rows) {
@@ -66,15 +66,14 @@ export const getAllPedidos = async (req, res) => {
             });
         }
 
-        // Convertimos el Map a array
         const pedidos = Array.from(pedidosMap.values());
-
-        res.json(pedidos);
+        return res.json(pedidos);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 //PATCH cambiar estado pedido
 export const cambiarEstadoPedido = async (req, res) => {
