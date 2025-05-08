@@ -128,3 +128,69 @@ export const deletePedido = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+// GET pedidos por número de usuario
+export const getPedidosPorUsuario = async (req, res) => {
+    const numero = req.params.numero;
+
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                p.ID_Pedido,
+                COALESCE(u.nombre, p.nombre) AS nombre_usuario,
+                p.numero AS numero_usuario,
+                pr.nombre AS nombre_producto,
+                pr.precio AS precio_producto,
+                p.estado AS estado_pedido,
+                p.fecha AS fecha_pedido,
+                pp.cantidad,
+                p.precio_final AS Precio_Final
+            FROM pedido p
+            LEFT JOIN usuario u ON u.numero = p.numero
+            JOIN productos_pedido pp ON p.ID_Pedido = pp.ID_Pedido
+            JOIN producto pr ON pp.ID_Producto = pr.ID_Producto
+            WHERE p.numero = ?
+            ORDER BY p.fecha DESC
+        `, [numero]);
+
+        const pedidosMap = new Map();
+
+        for (const row of rows) {
+            const {
+                ID_Pedido,
+                nombre_usuario,
+                numero_usuario,
+                nombre_producto,
+                precio_producto,
+                estado_pedido,
+                fecha_pedido,
+                cantidad,
+                Precio_Final
+            } = row;
+
+            if (!pedidosMap.has(ID_Pedido)) {
+                pedidosMap.set(ID_Pedido, {
+                    ID_Pedido,
+                    nombre_usuario,
+                    numero_usuario,
+                    productos: [],
+                    estado_pedido,
+                    fecha_pedido,
+                    Precio_Final
+                });
+            }
+
+            pedidosMap.get(ID_Pedido).productos.push({
+                nombre: nombre_producto,
+                cantidad,
+                precio: precio_producto
+            });
+        }
+
+        const pedidos = Array.from(pedidosMap.values());
+        res.json(pedidos);
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
