@@ -21,13 +21,28 @@ export const getProductosPorCategoria = async (req, res) => {
 };
 
 
-export const addProducto = (req, res) => {
+export const addProducto = async (req, res) => {
   const { nombre, precio, stock, imagen, descripcion, ID_Categoria } = req.body;
-  const sql = 'INSERT INTO producto (nombre, precio, stock, imagen, descripcion, ID_Categoria) VALUES (?, ?, ?, ?, ?, ?)';
-  pool.query(sql, [nombre, precio, stock, imagen, descripcion, ID_Categoria], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ mensaje: 'Producto agregado' });
-  });
+
+  if (!nombre || !precio || !stock || !ID_Categoria) {
+    return res.status(400).json({ mensaje: 'Faltan campos obligatorios' });
+  }
+
+  const sql = `
+    INSERT INTO producto (nombre, precio, stock, imagen, descripcion, ID_Categoria)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  try {
+    const [result] = await pool.query(sql, [nombre, precio, stock, imagen, descripcion, ID_Categoria]);
+    
+    res.status(201).json({
+      mensaje: 'Producto agregado exitosamente',
+      idInsertado: result.insertId
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 export const updateProducto = async (req, res) => {
