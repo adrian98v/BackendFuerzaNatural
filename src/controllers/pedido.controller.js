@@ -142,6 +142,7 @@ export const getPedidosPorUsuario = async (req, res) => {
                 p.numero AS numero_usuario,
                 pr.nombre AS nombre_producto,
                 pr.precio AS precio_producto,
+                pr.ID_Producto AS ID_Producto,
                 p.estado AS estado_pedido,
                 p.fecha AS fecha_pedido,
                 pp.cantidad,
@@ -163,6 +164,7 @@ export const getPedidosPorUsuario = async (req, res) => {
                 numero_usuario,
                 nombre_producto,
                 precio_producto,
+                ID_Producto,
                 estado_pedido,
                 fecha_pedido,
                 cantidad,
@@ -182,6 +184,7 @@ export const getPedidosPorUsuario = async (req, res) => {
             }
 
             pedidosMap.get(ID_Pedido).productos.push({
+                ID_Producto: ID_Producto,
                 nombre: nombre_producto,
                 cantidad,
                 precio: precio_producto

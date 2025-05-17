@@ -1,9 +1,27 @@
+// controllers/productoController.js
+
 import { pool } from '../db.js';
 
 export const getProductos = async (req, res) => {
   try {
     const [result] = await pool.query('SELECT * FROM producto');
     res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getProductoPorId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [result] = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [id]);
+
+    if (result.length === 0) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    res.json(result[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -20,7 +38,6 @@ export const getProductosPorCategoria = async (req, res) => {
   }
 };
 
-
 export const addProducto = async (req, res) => {
   const { nombre, precio, stock, imagen, descripcion, ID_Categoria } = req.body;
 
@@ -35,7 +52,7 @@ export const addProducto = async (req, res) => {
 
   try {
     const [result] = await pool.query(sql, [nombre, precio, stock, imagen, descripcion, ID_Categoria]);
-    
+
     res.status(201).json({
       mensaje: 'Producto agregado exitosamente',
       idInsertado: result.insertId
@@ -57,7 +74,7 @@ export const updateProducto = async (req, res) => {
 
   try {
     const [result] = await pool.query(sql, [nombre, precio, stock, imagen, descripcion, ID_Categoria, id]);
-    
+
     if (result.affectedRows === 0) {
       return res.status(404).json({ mensaje: 'Producto no encontrado' });
     }
@@ -67,7 +84,6 @@ export const updateProducto = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 export const deleteProducto = async (req, res) => {
   const { id } = req.params;
@@ -84,5 +100,3 @@ export const deleteProducto = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-
