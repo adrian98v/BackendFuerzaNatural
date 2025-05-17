@@ -21,7 +21,7 @@ export const generatePassword = async (req, res) => {
     return res.json({ success: true, message: 'Contraseña actualizada correctamente' });
 
   } catch (error) {
-    console.error(error);
+    
     return res.status(500).json({ success: false, message: 'Error del servidor' });
   }
 };
