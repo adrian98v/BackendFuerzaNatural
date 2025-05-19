@@ -8,6 +8,7 @@ import logoutRoutes from './routes/logout.routes.js'
 import productosPedidoRoutes from './routes/productos_pedido.routes.js'
 import pedidoRoutes from './routes/pedido.routes.js'
 import finalizarCompra  from './routes/checkout.routes.js'
+import resetRoutes from './routes/reset.password.routes.js'
 
 import userCheck from './routes/userCheck.routes.js'
 import cors from 'cors'
@@ -36,7 +37,7 @@ app.use(productoRoutes);
 app.use(pedidoRoutes);
 app.use(productosPedidoRoutes);
 app.use(finalizarCompra);
-
+app.use(resetRoutes)
 
 
 

@@ -10,6 +10,7 @@ export const getPedidos = async (req, res) => {
     }
 };
 
+
 // GET pedidos con datos del usuario y productos
 export const getAllPedidos = async (req, res) => {
     try {
@@ -31,7 +32,6 @@ export const getAllPedidos = async (req, res) => {
             ORDER BY p.fecha DESC
         `);
 
-        // Agrupamos los productos por ID_Pedido
         const pedidosMap = new Map();
 
         for (const row of rows) {
@@ -73,6 +73,7 @@ export const getAllPedidos = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 //PATCH cambiar estado pedido
 export const cambiarEstadoPedido = async (req, res) => {
