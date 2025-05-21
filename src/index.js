@@ -41,4 +41,8 @@ app.use(resetRoutes)
 
 
 
-app.listen(3000, ()=>{console.log("escuchando en puerto 3000")})
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Escuchando en puerto ${PORT}`);
+});
