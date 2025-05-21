@@ -19,7 +19,7 @@ import cookieParser from 'cookie-parser'
 const app = express()
 
 app.use(cors({
-    origin: 'https://fuerzanatural.netlify.app/',
+    origin: 'https://fuerzanatural.netlify.app',
     credentials: true
 }));
 
