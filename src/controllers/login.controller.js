@@ -34,8 +34,8 @@ export const loginController = async (req, res)=>{
         // Guardar la cookie
         res.cookie('usuario', copiaSegura, {
             httpOnly: true,
-            secure: false, // true en producción con HTTPS
-            sameSite: 'lax',
+            secure: true, // true en producción con HTTPS
+            sameSite: 'none',
             maxAge: 1000 * 60 * 60 * 24 // 1 día con sesión abierta
         });
 

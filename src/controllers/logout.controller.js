@@ -4,8 +4,8 @@ export const logoutController =  async (req, res) =>{
     try {
         res.clearCookie('usuario', {
             httpOnly: true,
-            sameSite: 'lax',
-            secure: false // true si usás HTTPS en producción
+            sameSite: 'none',
+            secure: true // true si usás HTTPS en producción
           });
         
           res.status(200).json({ success: true, message: 'Sesión cerrada correctamente' });
