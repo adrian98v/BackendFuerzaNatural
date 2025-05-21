@@ -2,7 +2,7 @@ import  {pool}  from '../db.js';
 import { transporter } from '../mail.js';
 import {EMAIL_USER} from '../data.js'
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 
 export const generatePassword = async (req, res) => {
