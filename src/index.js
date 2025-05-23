@@ -19,7 +19,7 @@ import cookieParser from 'cookie-parser'
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://fuerzanatural.netlify.app',
     credentials: true
 }));
 
@@ -41,4 +41,8 @@ app.use(resetRoutes)
 
 
 
-app.listen(3000, ()=>{console.log("escuchando en puerto 3000")})
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Escuchando en puerto ${PORT}`);
+});

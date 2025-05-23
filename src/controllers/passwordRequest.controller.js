@@ -2,7 +2,7 @@ import  {pool}  from '../db.js';
 import { transporter } from '../mail.js';
 import {EMAIL_USER} from '../data.js'
 import crypto from 'crypto';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 
 export const generatePassword = async (req, res) => {
@@ -72,7 +72,8 @@ export const passwordRequest = async (req, res)=>{
 
         const [resultado] = await pool.query("update usuario set resetToken = ?, resetTokenExpires = ? where email = ?", [token, expiration, email])
 
-        const resetLink = `http://localhost:5173/reset-password/${token}`;
+        const resetLink = `https://fuerzanatural.netlify.app/reset-password/${token}`;  //  CAMBIAR RESET LINK PORQUE DICE LOCALHOST
+
 
         await transporter.sendMail({
             from: EMAIL_USER,
