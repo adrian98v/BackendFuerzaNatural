@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {deleteUsuario, getClientes} from '../controllers/usuario.controller.js'
-import {changePassword} from '../controllers/usuario.controller.js'
 
 
 const router = Router()
