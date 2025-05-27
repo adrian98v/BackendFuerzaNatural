@@ -3,6 +3,6 @@ import {userCheckController} from '../controllers/userCheck.controller.js';
 
 const router = Router()
 
-router.get('/userCheck', userCheckController)
+router.post('/userCheck', userCheckController)
 
 export default router;
